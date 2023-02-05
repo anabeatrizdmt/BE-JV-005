@@ -110,7 +110,34 @@ public class CampeonatoBrasileiroImpl {
     }
 
     private DayOfWeek getDayOfWeek(String dia) {
-        return null;
+
+        DayOfWeek dayOfWeek = null;
+
+        switch (dia) {
+            case "Segunda-feira":
+                dayOfWeek = DayOfWeek.MONDAY;
+                break;
+            case "Terça-feira":
+                dayOfWeek = DayOfWeek.TUESDAY;
+                break;
+            case "Quarta-feira":
+                dayOfWeek = DayOfWeek.WEDNESDAY;
+                break;
+            case "Quinta-feira":
+                dayOfWeek = DayOfWeek.THURSDAY;
+                break;
+            case "Sexta-feira":
+                dayOfWeek = DayOfWeek.FRIDAY;
+                break;
+            case "Sábado":
+                dayOfWeek = DayOfWeek.SATURDAY;
+                break;
+            case "Domingo":
+                dayOfWeek = DayOfWeek.SUNDAY;
+                break;
+        }
+
+        return dayOfWeek;
     }
 
     private Map<Integer, Integer> getTotalGolsPorRodada() {
