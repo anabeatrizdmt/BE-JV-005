@@ -1,25 +1,26 @@
 package impl;
 
-import dominio.Jogo;
-import dominio.PosicaoTabela;
-import dominio.Resultado;
-import dominio.Time;
+import dominio.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.DayOfWeek;
-import java.util.IntSummaryStatistics;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class CampeonatoBrasileiroImpl {
 
-    private Map<Integer, List<Jogo>> brasileirao;
-    private List<Jogo> jogos;
+    public Map<Integer, List<Jogo>> brasileirao;
+
+    public List<Jogo> jogos;
     private Predicate<Jogo> filtro;
 
     public CampeonatoBrasileiroImpl(Path arquivo, Predicate<Jogo> filtro) throws IOException {
@@ -27,18 +28,73 @@ public class CampeonatoBrasileiroImpl {
         this.filtro = filtro;
         this.brasileirao = jogos.stream()
                 .filter(filtro) //filtrar por ano
+//                .forEach(System.out::println);
                 .collect(Collectors.groupingBy(
                         Jogo::rodada,
                         Collectors.mapping(Function.identity(), Collectors.toList())));
 
     }
 
-    public List<Jogo> lerArquivo(Path file) throws IOException {
-        return null;
+    public List<Jogo> lerArquivo(Path arquivo) throws IOException {
+
+        List<Jogo> jogos = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo.toFile()))) {
+
+            DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/yyy");
+            DateTimeFormatter formatterHora = DateTimeFormatter.ofPattern("HH'h'mm");
+            DateTimeFormatter formatterHora2 = DateTimeFormatter.ofPattern("HH':'mm");
+
+            br.readLine();
+            String line = null;
+
+            while ((line = br.readLine()) != null) {
+
+                String[] valores = line.split(";");
+                Integer rodada = Integer.valueOf(valores[0]);
+                DataDoJogo data;
+                if(valores[2].contains("h")) {
+                    data = new DataDoJogo(
+                            LocalDate.parse(valores[1], formatterData),
+                            LocalTime.parse(valores[2], formatterHora),
+                            getDayOfWeek(valores[3])
+                    );
+                } else if (valores[2].contains(":")) {
+                    data = new DataDoJogo(
+                            LocalDate.parse(valores[1], formatterData),
+                            LocalTime.parse(valores[2], formatterHora2),
+                            getDayOfWeek(valores[3])
+                    );
+                } else {
+                    data = new DataDoJogo(
+                            LocalDate.parse(valores[1], formatterData),
+                            null,
+                            getDayOfWeek(valores[3])
+                    );
+                }
+                Time mandante = new Time(valores[4]);
+                Time visitante = new Time(valores[5]);
+                Time vencedor = new Time(valores[6]);
+                String arena = valores[7];
+                Integer mandantePlacar = Integer.valueOf(valores[8]);
+                Integer visitantePlacar = Integer.valueOf(valores[9]);
+                String estadoMandante = valores[10];
+                String estadoVisitante = valores[11];
+                String estadoVencedor = valores[12];
+                Jogo jogo = new Jogo(rodada, data, mandante, visitante, vencedor, arena,
+                        mandantePlacar, visitantePlacar, estadoMandante, estadoVisitante,
+                        estadoVencedor);
+                jogos.add(jogo);
+            }
+        }
+        return jogos;
     }
 
     public IntSummaryStatistics getEstatisticasPorJogo() {
-        return null;
+        IntStream brasileiraoIS = todosOsJogos().stream()
+                .mapToInt(Jogo::getTotalGols);
+        IntSummaryStatistics statistics = brasileiraoIS.summaryStatistics();
+        return statistics;
     }
 
     public Map<Jogo, Integer> getMediaGolsPorJogo() {
@@ -50,7 +106,11 @@ public class CampeonatoBrasileiroImpl {
     }
 
     public List<Jogo> todosOsJogos() {
-        return null;
+        List<Jogo> jogosBrasileirao = new ArrayList<>();
+//        for (Integer key: brasileirao.keySet()) {
+//            jogosBrasileirao.add(brasileirao.get(key));
+//        }
+        return jogosBrasileirao;
     }
 
     public Long getTotalVitoriasEmCasa() {
@@ -106,6 +166,15 @@ public class CampeonatoBrasileiroImpl {
     }
 
     public Set<PosicaoTabela> getTabela() {
+//        Flamengo,
+//        pontos=71,
+//        vitorias=21,
+//        derrotas=9,
+//        empates=8,
+//        golsPositivos=68,
+//        golsSofridos=48,
+//        saldoDeGols=20
+
         return null;
     }
 

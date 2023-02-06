@@ -1,3 +1,4 @@
+import dominio.Jogo;
 import dominio.PosicaoTabela;
 import dominio.Resultado;
 import impl.CampeonatoBrasileiroImpl;
@@ -5,6 +6,7 @@ import impl.CampeonatoBrasileiroImpl;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.IntSummaryStatistics;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,17 +14,16 @@ public class Aplicacao {
 
     public static void main(String[] args) throws IOException {
 
-        // obter caminho do arquivo
         Path file = Path.of("campeonato-brasileiro.csv");
 
-        // obter a implementação: (ponto extra - abstrair para interface)
+        // obter a implementação: (ponto extra -> abstrair para interface)
         CampeonatoBrasileiroImpl resultados =
                 new CampeonatoBrasileiroImpl(file, (jogo) -> jogo.data().data().getYear() == 2019);
 
-        // imprimir estatisticas
+        System.out.println(resultados.brasileirao.size());
+
         imprimirEstatisticas(resultados);
 
-        // imprimir tabela ordenada
         imprimirTabela(resultados.getTabela());
 
     }
