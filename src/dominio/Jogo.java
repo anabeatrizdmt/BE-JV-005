@@ -13,8 +13,12 @@ public record Jogo(
                     String estadoVisitante,
                     String estadoVencedor){
 
-    public Integer getTotalGols(){
-        int i = this.mandantePlacar + this.visitantePlacar;
-        return i;
+    public Integer getTotalGols() {
+        return this.mandantePlacar + this.visitantePlacar;
     }
+
+    public Resultado getResutado() {
+        return new Resultado(this.mandantePlacar, this.visitantePlacar);
+    }
+
 }
