@@ -20,8 +20,6 @@ public class Aplicacao {
         CampeonatoBrasileiroImpl resultados =
                 new CampeonatoBrasileiroImpl(file, (jogo) -> jogo.data().data().getYear() == 2019);
 
-        System.out.println(resultados.brasileirao.size());
-
         imprimirEstatisticas(resultados);
 
         imprimirTabela(resultados.getTabela());
