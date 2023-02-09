@@ -21,7 +21,6 @@ public record PosicaoTabela(Time time,
                 ", golsPositivos=" + golsPositivos +
                 ", golsSofridos=" + golsSofridos +
                 ", saldoDeGols=" + saldoDeGols +
-                ", jogos=" + jogos +
                 '.';
 =======
         return  String.format("%14s | %6s | %8s | %8s | %7s | %15s | %13s | %13s",
