@@ -12,6 +12,7 @@ public record PosicaoTabela(Time time,
 
     @Override
     public String toString() {
+<<<<<<< Updated upstream
         return  time +
                 ", pontos=" + pontos +
                 ", vitorias=" + vitorias +
@@ -21,5 +22,11 @@ public record PosicaoTabela(Time time,
                 ", golsSofridos=" + golsSofridos +
                 ", saldoDeGols=" + saldoDeGols +
                 '.';
+=======
+        return  String.format("%14s | %6s | %8s | %8s | %7s | %15s | %13s | %13s",
+                time, pontos, vitorias, derrotas, empates,
+                golsPositivos, golsSofridos, saldoDeGols);
+
+>>>>>>> Stashed changes
     }
 }
