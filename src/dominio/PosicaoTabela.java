@@ -20,7 +20,6 @@ public record PosicaoTabela(Time time,
                 ", golsPositivos=" + golsPositivos +
                 ", golsSofridos=" + golsSofridos +
                 ", saldoDeGols=" + saldoDeGols +
-                ", jogos=" + jogos +
                 '.';
     }
 }

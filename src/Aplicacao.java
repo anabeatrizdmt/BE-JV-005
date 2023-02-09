@@ -1,14 +1,11 @@
-import dominio.Jogo;
 import dominio.PosicaoTabela;
 import dominio.Resultado;
 import impl.CampeonatoBrasileiroImpl;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class Aplicacao {
 
@@ -16,9 +13,8 @@ public class Aplicacao {
 
         Path file = Path.of("campeonato-brasileiro.csv");
 
-        // obter a implementação: (ponto extra -> abstrair para interface)
         CampeonatoBrasileiroImpl resultados =
-                new CampeonatoBrasileiroImpl(file, (jogo) -> jogo.data().data().getYear() == 2019);
+                new CampeonatoBrasileiroImpl(file, (jogo) -> jogo.data().data().getYear() == 2020 ||     jogo.data().data().getYear() == 2021);
 
         imprimirEstatisticas(resultados);
 
@@ -56,9 +52,10 @@ public class Aplicacao {
         System.out.println("Estatisticas (Vitorias Fora de casa) - " + vitoriasForaDeCasa);
         System.out.println("Estatisticas (Vitorias Em casa) - " + totalVitoriasEmCasa);
         System.out.println("Estatisticas (Empates) - " + empates);
+
     }
 
-    public static void imprimirTabela(Set<PosicaoTabela> posicoes) {
+    public static void imprimirTabela(List<PosicaoTabela> posicoes) {
         System.out.println();
         System.out.println("## TABELA CAMPEONADO BRASILEIRO: ##");
         int colocacao = 1;
